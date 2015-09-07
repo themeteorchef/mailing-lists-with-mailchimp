@@ -1,7 +1,12 @@
-/*
-* Routes: Public
-* Routes that are visible to all (public) users.
-*/
+Router.route('index', {
+  path: '/',
+  template: 'index',
+  onBeforeAction: function() {
+    Session.set( 'currentRoute', null );
+    this.next();
+  }
+});
+
 
 Router.route('signup', {
   path: '/signup',

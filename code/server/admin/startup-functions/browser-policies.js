@@ -5,5 +5,5 @@
 */
 
 customBrowserPolicies = function(){
-  // Define any custom browser policies here.
-}
+  BrowserPolicy.content.allowOriginForAll( 'images.unsplash.com' );
+};

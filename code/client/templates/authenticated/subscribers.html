@@ -1,0 +1,10 @@
+<template name="subscribers">
+  <h4 class="page-header">Subscribers <span class="badge">{{count subscribers}}</span></h4>
+  <ul class="list-group">
+    {{#each subscribers}}
+      <li class="list-group-item clearfix">{{email}} <i class="pull-right fa fa-remove remove-subscriber"></i></li>
+    {{else}}
+      <p class="alert alert-warning">No subscribers yet.</p>
+    {{/each}}
+  </ul>
+</template>
