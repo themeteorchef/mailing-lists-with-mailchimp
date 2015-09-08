@@ -1,12 +1,12 @@
 ### Getting started
-To get started, we need to add a couple of packages to our application that will help us to manage our mailing list.
+To get started, we need to add a few packages to our application that will help us to manage our mailing list.
 
 <p class="block-header">Terminal</p>
 
 ```bash
 meteor add miro:mailchimp
 ```
-This package will give us access to the [Node MailChimp libray](https://github.com/gomfunkel/node-mailchimp). We'll use this to interact with the MailChimp API for things like adding and removing subscribers from our list, and grabbing our current list of subscribers. **Note**: as of writing, this package only supports version 2.0 of the MailChimp API, not the latest version 3.0. This is due to a lack of support for version 3.0 of the API in the Node MailChimp dependency.
+This package will give us access to the [Node MailChimp libray](https://github.com/gomfunkel/node-mailchimp). We'll use this to interact with the MailChimp API for things like adding and removing subscribers from our list, and grabbing our current list of subscribers. **Note**: as of writing, this package only supports [version 2.0 of the MailChimp API](https://apidocs.mailchimp.com/api/2.0/), not the latest [version 3.0](http://kb.mailchimp.com/api/). This is due to a lack of support for version 3.0 of the API in the Node MailChimp dependency.
 
 <p class="block-header">Terminal</p>
 
@@ -97,9 +97,9 @@ Template.index.events({
 ```
 In order to prevent getting bad email addresses to the server, here, we're adding a bit of client-side validation to our form. To get it working, we first make sure to capture the `submit` event on our form and call `event.preventDefault()` on it. Why do we need this? Two reasons: first, it ensures that the normal browser submit action doesn't get called, and two, guarantees that our validation logic will "take over" and handle the form submission for us. Neat!
 
-Up above in our call to `Template.index.onRendered` we have to distinct things going on. First, we give all of the code in our `onRendered` function access to the current template instance by assigning `this` equal to a variable `template`. We'll see why we're doing this in just a few lines.
+Up above in our call to `Template.index.onRendered` we have two distinct things going on. First, we give all of the code in our `onRendered` function access to the current template instance by assigning `this` equal to a variable `template`. We'll see why we're doing this in just a few lines.
 
-Next, we're attaching the `validate` method given to us from the `themeteorchef:jquery-validation` package (we have access to this package via [Base](https://github.com/themeteorchef/base), the starter kit used for our recipe) to our form via its `id` attribute `#mailing-list`. Making sense so far? Inside of our call to `validate`, we pass four things: the validation rules for each field, the error messages that should be displayed for each rule, a custom function for controlling where our errors are displayed, what happens to errors on success, and a final function for handling the form submission like we explained above.
+Next, we're attaching the `validate` method given to us from the `themeteorchef:jquery-validation` package (we have access to this package via [Base](https://github.com/themeteorchef/base#packages-included), the starter kit used for our recipe) to our form via its `id` attribute `#mailing-list`. Making sense so far? Inside of our call to `validate`, we pass four things: the validation rules for each field, the error messages that should be displayed for each rule, a custom function for controlling where our errors are displayed, what happens to errors on success, and a final function for handling the form submission like we explained above.
 
 The first two steps `rules` and `messages` should be pretty clear, but what is that `errorPlacement` thing? This is pretty cool. By default, our validation library automatically appends error messages beneath the form field where the error is occuring. Normally this is okay, but for our purposes, it ends up breaking our layout. To get around this, we can add the `errorPlacement` method, passing some functions to call when an error occurs. 
 
@@ -119,7 +119,7 @@ Before we jump into working with MailChimp, we need to make sure that we have tw
 
 ![MailChimp signup page](http://cl.ly/image/0o3z1m1J0n2P/Image%202015-09-08%20at%2010.02.49%20AM.png)
 
-Once you're signed up and your account is confirmed, we need to generate an API key. This is what we'll use to talk to confirm our identity with MailChimp when sending requests from our application. To get your API key, head to the [API keys portion of your account page](https://admin.mailchimp.com/account/api/). Scroll down a little bit until you see the "Your API keys" block and click on the "Create A Key" button.
+Once you're signed up and your account is confirmed, we need to generate an API key. This is what we'll use to confirm our identity with MailChimp when sending requests from our application. To get your API key, head to the [API keys portion of your account page](https://admin.mailchimp.com/account/api/). Scroll down a little bit until you see the "Your API keys" block and click on the "Create A Key" button.
 
 ![Your API keys list in MailChimp](https://s3.amazonaws.com/f.cl.ly/items/2e0E2O0o22011N0y1D3U/Image%202015-09-08%20at%2010.06.05%20AM.png)
 
@@ -141,7 +141,7 @@ Once our list is set up, we need to get the List ID. To do this, click on the na
 Cool! Now that we have access to our API key(s) and our List ID, let's chat about how we're going to make use of them in our application.
 
 #### Adding our API keys and list ID to a settings file
-For simplicity and security sake, we're going to use [a settings.json file](themeteorchef.com/snippets/making-use-of-settings-json) to store our API key(s) and list ID. By using a settings file, we can get access to any JSON data stored in that file within our app. This is important because it gives us one source of truth for our API key and list ID and helps us to avoid storing sensitive information in our application code. 
+For simplicity and security sake, we're going to use [a settings.json file](http://themeteorchef.com/snippets/making-use-of-settings-json) to store our API key(s) and list ID. By using a settings file, we can get access to any JSON data stored in that file within our app. This is important because it gives us one source of truth for our API key and list ID and helps us to avoid storing sensitive information in our application code. 
 
 Instead, with a settings file we simply make a reference to information in that file. This means we can change our keys and any code referencing them will automatically update. Before we get too far ahead of ourselves, let's see how it works.
 
@@ -163,17 +163,17 @@ Pretty simple. Notice that this file is named `settings-development.json`. This 
 
 <div class="note info">
   <h3>Further Reading on settings.json<i class="fa fa-info"></i></h3>
-  <p>If you're curious about how settings.json works and the different ways it can be used in development vs. production, check out <a href="http://themeteorchef.com/snippets/making-use-of-settings-json">this Meteor Chef snippet on Making Use of Settings.json</a></p>
+  <p>If you're curious about how settings.json works and the different ways it can be used in development vs. production, check out <a href="http://themeteorchef.com/snippets/making-use-of-settings-json">this snippet on Making Use of Settings.json</a></p>
 </div>
 
 In our settings file, we've added a `private` object containing another object `MailChimp` with two keys: `apiKey` and `listId`. I bet you can guess what goes here! Grab the API key and List ID you created for development purposes earlier and paste them into their respective spots here. Now, we'll have full access to our API key(s) and List ID from _within_ our application! **Note**: because we've stored our MailChimp information inside of the `private` object in our `settings-development.json` file, we expect this information to only be visible on the _server-side_ of our application (this is good as we don't want this exposed on the client).
 
-All set? Okay! Let's hop back to the logic for our setup form to see how we're adding new subscribers to our mailing list.
+All set? Okay! Let's hop back to the logic for our sign up form to see how we're adding new subscribers to our mailing list.
 
 ### Adding subscribers
 Back in our template logic, let's take a look at the `submitHandler` portion of our validation. This is what will control what happens when our user clicks the "Sign Me Up!" button.
 
-<p class="block-header"></p>
+<p class="block-header">/client/templates/public/index.js</p>
 
 ```javascript
 Template.index.onRendered( function() {
@@ -199,19 +199,6 @@ So, when our `submitHandler` function is called, we're actually calling another 
 handleSubscriber = function( subscriber ) {
   Meteor.call( "handleSubscriber", subscriber, function( error, response ) {
 	// Handle error or response here.
-    if ( error ) {
-      Bert.alert( error.reason, "warning" );
-    } else {
-      if ( response.complete || response.euid ) {
-        var subscribeMessage   = "Please confirm your email to complete your subscription!",
-            unsubscribeMessage = subscriber.email + " successfully unsubscribed!",
-            message            = subscriber.action === "subscribe" ? subscribeMessage : unsubscribeMessage;
-
-        Bert.alert( message, "success" );
-      } else {
-        Bert.alert( response.message, "warning" );
-      }
-    }
   });
 };
 ```
@@ -272,7 +259,7 @@ Keep in mind, we haven't set it here but there's another parameter that we can s
 You're allowed to change this, but beware the risk that MailChimp can suspend your account if they think you're abusing it. To stay on the safe side, it's best to make sure our users get this email so we can focus on more important things.
 
 #### No callback?
-You may have noticed that when we made the call to MailChimp using the `chimp.call()` method we didn't provide a callback. This is a convenience given to us by the `miro:mailchimp` package. Without a callback, our callback is converted to a [synchronous method call using Meteor.wrapAsync]() instead of asynchronous, meaning our method waits until it receives a response before returning. This is handy because it ensures we get a response (either negative or positive) back from MailChimp before completing our method call. Sweet!
+You may have noticed that when we made the call to MailChimp using the `chimp.call()` method we didn't provide a callback. This is a convenience given to us by the `miro:mailchimp` package. Without a callback, our callback is converted to a [synchronous method call using Meteor.wrapAsync](http://themeteorchef.com/snippets/synchronous-methods/#tmc-using-wrapasync) instead of asynchronous, meaning our method waits until it receives a response before returning. This is handy because it ensures we get a response (either negative or positive) back from MailChimp before completing our method call. Sweet!
 
 As we can guess, then, inside of our `try/catch` block, we're returning one of two things: a success message from MailChimp or an error message from MailChimp. Because our call is synchronous, we can expect to get that value back on the client. How do we handle it?
 
@@ -302,7 +289,7 @@ handleSubscriber = function( subscriber ) {
 ```
 Woah! A few considerations here. First, if we get an error from _Meteor_, we go ahead and handle it, alerting the error message to the user. Next, we have to get a bit tricky. Recall that our call to MailChimp is synchronous and being returned as the `response` value in our method call's callback. Because the response we get back from MailChimp might be an error, we need to account for this. In our `else` statement, we check for one of two values on our response object `response.complete` or `response.euid`. 
 
-As we'll see in a bit, when we _remove_ a subscriber, MailChimp will send back an object containing a single property `complete` set to `true` or `false`. When we _add_ a subscriber, MailChimp will send back an object containing a handful of fields describing the subscriber as they're stored on MailChimp. For our purposes, we look at the `euid` property on this response which is equal to the "email unique ID" from MailChimp. It's only utility for us is to confirm that the user was successfully added to our list. If the response contains this value, we can be certain that they were.
+As we'll see in a bit, when we _remove_ a subscriber, MailChimp will send back an object containing a single property `complete` set to `true` or `false`. When we _add_ a subscriber, MailChimp will send back an object containing a handful of fields describing the subscriber as they're stored on MailChimp. For our purposes, we look at the `euid` property on this response which is equal to the "email unique ID" from MailChimp. Its only utility for us is to confirm that the user was successfully added to our list. If the response contains this value, we can be certain that they were.
 
 Finally, if our response contains _neither_ of these values, we assume there was an error and alert that back to the user (e.g. this would fire if we passed MailChimp a bad email address). What's neat about this is that because our method on the server is being handled synchronously, we can get error messages back from MailChimp for free without any hoop jumping! This equates to us having validation on both the client _and_ the server. Swish.
 
@@ -312,7 +299,7 @@ With all of this in place, we can reuse this `handleSubscriber` method to _unsub
 Because our list of subscribers lives on MailChimp (not locally in our database), we need a way to retrieve a list of our current subscribers that doesn't involve storing anything in the database. How do we do that?
 
 #### Subscribers template
-We've already set up a route at `http://localhost:3000/subscribers` that is accessible when you login as the user `admin@admin.com` with the password `password`. Here, we want to get a list of our current subscribers displayed. Let's take a look at the markup and then discuss how it's wired up.
+We've [already set up a route](https://github.com/themeteorchef/mailing-lists-with-mailchimp/blob/master/code/client/routes/routes-authenticated.js) at `http://localhost:3000/subscribers` that is accessible when you login as the user `admin@admin.com` with the password `password`. Here, we want to get a list of our current subscribers displayed. Let's take a look at the markup and then discuss how it's wired up.
 
 <p class="block-header">/client/templates/authenticated/subscribers.html</p>
 
@@ -328,7 +315,7 @@ We've already set up a route at `http://localhost:3000/subscribers` that is acce
   </ul>
 </template>
 ```
-Easy peasy. Two things to pay attention to. First, we use a simple each loop which iterates over a helper called `subscribers` that we'll set up in a little bit. Just above that, we also make another call to this `subscribers` helper, but we pass it to a template helper called `count`. What's that? This is just for show and completely optional, but this allows us to pass an array value and get back the numeric value for how many items are _in_ that array. So it's clear:
+Easy peasy. Two things to pay attention to. First, we use a simple `{{#each}}` loop which iterates over a helper called `subscribers` that we'll set up in a little bit. Just above that, we also make another call to this `subscribers` helper, but we pass it to a template helper called `count`. What's that? This is just for show and completely optional, but this allows us to pass an array value and get back the numeric value for how many items are _in_ that array. So it's clear:
 
 <p class="block-header">/client/helpers/template.js</p>
 
@@ -340,7 +327,7 @@ Template.registerHelper( 'count', function( array ) {
 
 Make sense? We take the passed array and grab the `length` property on it and return it to our template. Really simple, but adds a nice bit of UX flair to our template! Okay, so now we need to wire this up so we actually get our list of users as well as our count. How do we do it?
 
-<p class="block-header">/client/</p>
+<p class="block-header">/client/templates/authenticated/subscribers.js</p>
 
 ```javascript
 Template.subscribers.onCreated( function() {
@@ -407,9 +394,9 @@ Meteor.methods({
 ```
 Some of this should look familiar. We can see our variables declared from earlier at the top and a new method being added `getSubscribers` that we're trying to call from the client when our subscribers list loads up. Our call to MailChimp is for the `lists` resource and the `members` method associated with that resource. In our options, we pass an `id` parameter which is equal to the `listId` we fetch from our `settings.json` file and then we pass another parameter `status` which tells MailChimp we want all of the members of this mailing list that are currently subscribed.
 
-Just like we did earlier, we set this call up to be synchronous, meaning we wait for data to be returned before continue returning from our method. But wait...what's this call to `_.map()` about? Ah! This is a matter of efficiency. In our interface, we only need/want to list the email addresses of each of our subscribers, nothing else. When we get a successful response back from MailChimp, they send us back a bunch of information in the form of individual objects for each subscriber in an array called `data`. 
+Just like we did earlier, we set this call up to be synchronous, meaning we wait for data to be returned before we continue returning from our method. But wait...what's this call to `_.map()` about? Ah! This is a matter of efficiency. In our interface, we only need/want to list the email addresses of each of our subscribers, nothing else. When we get a successful response back from MailChimp, they send us back a bunch of information in the form of individual objects for each subscriber in an array called `data`. 
 
-Here, then, we use map to say "for each of the objects in the `subscribers.data` array, return a single object with a parameter called `email` equal to the currently looped users email address. `_.map()` then (which we get from the [Underscore](http://underscorejs.org) library that's baked into both Meteor and [Base](https://github.com/themeteorchef/base)) returns an array with objects containing the single email field for each subscriber. Cool!
+Here, then, we use map to say "for each of the objects in the `subscribers.data` array, return a single object with a parameter called `email` equal to the currently looped user's email address. `_.map()` then (which we get from the [Underscore](http://underscorejs.org/#map) library that's baked into both Meteor and [Base](https://github.com/themeteorchef/base#packages-included)) returns an array with objects containing the single email field for each subscriber. Cool!
 
 Once we have this filtered array, we simply return it to the client. Let's hop back over to there now to see how this gets to the template.
 
@@ -481,7 +468,7 @@ Template.subscribers.events({
 ```
 See how this is working? Whenever we click on that red "X" icon, we confirm that the user wants to delete this subscriber and then call to our `handleSubscriber` function. Inside, we pass `this.email` as the email (which is equal to the item in the list where the click originated from) and then we pass `'unsubscribe'` as the action. Remember that earlier when we defined our method `handleSubscriber`, we grabbed this `action` value to call the corresponding method in the MailChimp API. So here, instead of `'subscribe'` we pass `'unsubscribe'`.
 
-Notice, too, that after we pass our setting object, we're adding _another_ argument, our template instance. Why is that? Recall that our call to MailChimp's API for fetching our subscribers is _not_ reactive. In order to "fake" reactivity, we want to be able to "refresh" our list of subscribers after we've removed one. To do this, then, we can access our `getSubscribers` function we defined on our template earlier! Let's update our `handleSubscriber` function to see how this works.
+Notice, too, that after we pass our settings object, we're adding _another_ argument, our template instance. Why is that? Recall that our call to MailChimp's API for fetching our subscribers is _not_ reactive. In order to "fake" reactivity, we want to be able to "refresh" our list of subscribers after we've removed one. To do this, then, we can access our `getSubscribers` function we defined on our template earlier! Let's update our `handleSubscriber` function to see how this works.
 
 <p class="block-header">/client/modules/handle-subscriber.js</p>
 
