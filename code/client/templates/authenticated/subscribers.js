@@ -22,7 +22,6 @@ Template.subscribers.helpers({
   }
 });
 
-
 Template.subscribers.events({
   'click .remove-subscriber': function( event, template ) {
     if ( confirm( "Are you sure you want to delete this subscriber? This is permanent." ) ) {

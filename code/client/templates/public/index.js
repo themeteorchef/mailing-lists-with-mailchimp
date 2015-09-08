@@ -1,5 +1,4 @@
 Template.index.onRendered( function() {
-
   var template = this;
 
   $( "#mailing-list" ).validate({
@@ -16,6 +15,9 @@ Template.index.onRendered( function() {
       }
     },
     errorPlacement: function( error, element ) {
+      $( ".error-message" ).text( error[0].innerText );
+    },
+    success: function( error ) {
       $( ".error-message" ).text( error[0].innerText );
     },
     submitHandler: function() {

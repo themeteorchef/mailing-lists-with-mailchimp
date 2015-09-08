@@ -1,5 +1,6 @@
-var chimp  = new MailChimp( Meteor.settings.private.MailChimp.apiKey, { version: '2.0' } ),
-    listId = Meteor.settings.private.MailChimp.listId;
+var settings = Meteor.settings.private.MailChimp,
+    chimp    = new MailChimp( settings.apiKey, { version: '2.0' } ),
+    listId   = settings.listId;
 
 Meteor.methods({
   getSubscribers: function() {

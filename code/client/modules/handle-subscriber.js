@@ -5,7 +5,7 @@ handleSubscriber = function( subscriber, template ) {
     } else {
       if ( response.complete || response.euid ) {
         var subscribeMessage   = "Please confirm your email to complete your subscription!",
-            unsubscribeMessage = subscriber.email + " successfully " +  subscriber.action + "d!",
+            unsubscribeMessage = subscriber.email + " successfully unsubscribed!",
             message            = subscriber.action === "subscribe" ? subscribeMessage : unsubscribeMessage;
 
         Bert.alert( message, "success" );
