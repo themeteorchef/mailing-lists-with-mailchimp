@@ -6,7 +6,7 @@ To get started, we need to add a few packages to our application that will help 
 ```bash
 meteor add miro:mailchimp
 ```
-This package will give us access to the [Node MailChimp libray](https://github.com/gomfunkel/node-mailchimp). We'll use this to interact with the MailChimp API for things like adding and removing subscribers from our list, and grabbing our current list of subscribers. **Note**: as of writing, this package only supports [version 2.0 of the MailChimp API](https://apidocs.mailchimp.com/api/2.0/), not the latest [version 3.0](http://kb.mailchimp.com/api/). This is due to a lack of support for version 3.0 of the API in the Node MailChimp dependency.
+This package will give us access to the [Node MailChimp libray](https://github.com/gomfunkel/node-mailchimp). We'll use this to interact with the MailChimp API for things like adding and removing subscribers from our list, and grabbing our current list of subscribers. **Note**: as of writing, this package only supports [version 2.0 of the MailChimp API](https://apidocs.mailchimp.com/api/2.0/), not the latest [version 3.0](https://kb.mailchimp.com/api/). This is due to a lack of support for version 3.0 of the API in the Node MailChimp dependency.
 
 <p class="block-header">Terminal</p>
 
@@ -108,7 +108,7 @@ Here, we're grabbing the empty `.error-message` element that we added in our tem
 Just after this, we see another method being added `success` that does the exact same thing as our `errorPlacement` method. What gives? This is essentially doing the inverse of what happens when our validation _passes_. This may be potentially confusing, but we still access our error state to figure out if this field has passed validation. The difference, here, is that inside of our `success` method, we expect our error message to be `null` or empty, meaning the error does not exist. A quick demo of this in action:
 
 <figure>
-  <img src="http://cl.ly/image/0f383a2P190X/validation-errors.gif" alt="Demo of validation working.">
+  <img src="https://cl.ly/image/0f383a2P190X/validation-errors.gif" alt="Demo of validation working.">
   <figcaption>Demo of validation working.</figcaption>
 </figure>
 
@@ -117,7 +117,7 @@ Making some sense? So, when our error exists, it's set in our `.error-message` e
 ### Getting a MailChimp account and API key
 Before we jump into working with MailChimp, we need to make sure that we have two things: a MailChimp account and an API key. First, head over to [MailChimp's signup page](https://login.mailchimp.com/signup?) and create your account.
 
-![MailChimp signup page](http://cl.ly/image/0o3z1m1J0n2P/Image%202015-09-08%20at%2010.02.49%20AM.png)
+![MailChimp signup page](https://cl.ly/image/0o3z1m1J0n2P/Image%202015-09-08%20at%2010.02.49%20AM.png)
 
 Once you're signed up and your account is confirmed, we need to generate an API key. This is what we'll use to confirm our identity with MailChimp when sending requests from our application. To get your API key, head to the [API keys portion of your account page](https://admin.mailchimp.com/account/api/). Scroll down a little bit until you see the "Your API keys" block and click on the "Create A Key" button.
 
@@ -132,7 +132,7 @@ MailChimp will automatically create a key for you. For good measure, make sure t
 
 Keep that keys page open for a second as we'll make use of your API key(s) in a little bit. Before we do, we need to do one last thing: create a mailing list. To do this, we need to head over to the [lists section of the MailChimp dashboard](https://admin.mailchimp.com/lists/) and create a new list.
 
-![Creating a new list in MailChimp](http://cl.ly/image/3t1H1B161621/Image%202015-09-08%20at%2010.37.45%20AM.png)
+![Creating a new list in MailChimp](https://cl.ly/image/3t1H1B161621/Image%202015-09-08%20at%2010.37.45%20AM.png)
 
 Once our list is set up, we need to get the List ID. To do this, click on the name of the list and then from its dashboard, select the "List Name and Defaults" option from the "Settings" dropdown. Once you're there, you should see the ID for your list displayed off to the right.
 
@@ -141,7 +141,7 @@ Once our list is set up, we need to get the List ID. To do this, click on the na
 Cool! Now that we have access to our API key(s) and our List ID, let's chat about how we're going to make use of them in our application.
 
 #### Adding our API keys and list ID to a settings file
-For simplicity and security sake, we're going to use [a settings.json file](http://themeteorchef.com/snippets/making-use-of-settings-json) to store our API key(s) and list ID. By using a settings file, we can get access to any JSON data stored in that file within our app. This is important because it gives us one source of truth for our API key and list ID and helps us to avoid storing sensitive information in our application code. 
+For simplicity and security sake, we're going to use [a settings.json file](https://themeteorchef.com/snippets/making-use-of-settings-json) to store our API key(s) and list ID. By using a settings file, we can get access to any JSON data stored in that file within our app. This is important because it gives us one source of truth for our API key and list ID and helps us to avoid storing sensitive information in our application code. 
 
 Instead, with a settings file we simply make a reference to information in that file. This means we can change our keys and any code referencing them will automatically update. Before we get too far ahead of ourselves, let's see how it works.
 
@@ -159,7 +159,7 @@ Instead, with a settings file we simply make a reference to information in that 
 }
 ```
 
-Pretty simple. Notice that this file is named `settings-development.json`. This implies that we have multiple settings files. If we're going to deploy our application into production, we want to have another file called `settings-production.json`. There are two differences between these files: unlike our `settings-development.json` file, we do _not_ want to commit our `settings-production.json` file to source control (for [security reasons](http://themeteorchef.com/snippets/making-use-of-settings-json/#tmc-settingsjson-in-development-vs-production)). Additionally, our `settings-production.json` file should contain the _production_ keys and information for our application. This is where creating two separate API keys like we described above comes into play.
+Pretty simple. Notice that this file is named `settings-development.json`. This implies that we have multiple settings files. If we're going to deploy our application into production, we want to have another file called `settings-production.json`. There are two differences between these files: unlike our `settings-development.json` file, we do _not_ want to commit our `settings-production.json` file to source control (for [security reasons](https://themeteorchef.com/snippets/making-use-of-settings-json/#tmc-settingsjson-in-development-vs-production)). Additionally, our `settings-production.json` file should contain the _production_ keys and information for our application. This is where creating two separate API keys like we described above comes into play.
 
 <div class="note info">
   <h3>Further Reading on settings.json<i class="fa fa-info"></i></h3>
@@ -238,13 +238,13 @@ Meteor.methods({
   }
 });
 ```
-Interesting! First, we set up a handful of variables. The first one, `settings` is assigned to the value of `Meteor.settings.private.MailChimp`. Can you guess what this is doing? This is pulling in the contents of our `MailChimp` object from the `private` object in our `settings-<environment>.json` file! That `Meteor.settings` part tells Meteor to look at the value of the `METEOR_SETTINGS` environment variable which we set to the value of our `settings-<environment>.json` file [when Meteor starts up](http://themeteorchef.com/snippets/making-use-of-settings-json/#tmc-using-settingsjson).
+Interesting! First, we set up a handful of variables. The first one, `settings` is assigned to the value of `Meteor.settings.private.MailChimp`. Can you guess what this is doing? This is pulling in the contents of our `MailChimp` object from the `private` object in our `settings-<environment>.json` file! That `Meteor.settings` part tells Meteor to look at the value of the `METEOR_SETTINGS` environment variable which we set to the value of our `settings-<environment>.json` file [when Meteor starts up](https://themeteorchef.com/snippets/making-use-of-settings-json/#tmc-using-settingsjson).
 
 Once we have this, we create another variable `chimp` and assign it to a new instance of the `MailChimp` API (we get this from the `miro:mailchimp` package we installed earlier). Notice that here, we pass our API key as `settings.apiKey` as we want to pull this value from our `settings` variable containing the contents of our `MailChimp` object in our settings file. We also pass an object containing a single key `version` here, with the value set to `2.0`, the latest version of the MailChimp API that this package supports.
 
 Finally, we assign the `listId` variable equal to our Mailing List's ID we grabbed from MailChimp earlier. With these in place, next, we define our actual method for `handleSubscriber`.
 
-We start by [using the check package](http://themeteorchef.com/snippets/using-the-check-package/) to validate our `subscriber` argument and then attempt to make a call to the MailChimp API. Pay attention to the syntax here. Notice that we use the `.call()` method on our `chimp` variable which is equal to the instance of the MailChimp API we defined up top. Next, we pass three arguments to the call: the "section" of the API we want to access, the "method" from that section we'd like to call, and then any parameters to fulfill that request.
+We start by [using the check package](https://themeteorchef.com/snippets/using-the-check-package/) to validate our `subscriber` argument and then attempt to make a call to the MailChimp API. Pay attention to the syntax here. Notice that we use the `.call()` method on our `chimp` variable which is equal to the instance of the MailChimp API we defined up top. Next, we pass three arguments to the call: the "section" of the API we want to access, the "method" from that section we'd like to call, and then any parameters to fulfill that request.
 
 Because we want to add a new subscriber to our list, we first past the `"lists"` group, followed by the value of `subscriber.action`. Remember that earlier, we passed this along via our `handleSubscriber` function on the client as `'subscribe'`. This will make sense later, but we make this a variable as this exact same call will be performed for _unsubscribing_ a user. By defining our call in this way, we can make use of the same method, passing the _type_ of call we want to make on the MailChimp API as a variable. Neat!
 
@@ -259,7 +259,7 @@ Keep in mind, we haven't set it here but there's another parameter that we can s
 You're allowed to change this, but beware the risk that MailChimp can suspend your account if they think you're abusing it. To stay on the safe side, it's best to make sure our users get this email so we can focus on more important things.
 
 #### No callback?
-You may have noticed that when we made the call to MailChimp using the `chimp.call()` method we didn't provide a callback. This is a convenience given to us by the `miro:mailchimp` package. Without a callback, our callback is converted to a [synchronous method call using Meteor.wrapAsync](http://themeteorchef.com/snippets/synchronous-methods/#tmc-using-wrapasync) instead of asynchronous, meaning our method waits until it receives a response before returning. This is handy because it ensures we get a response (either negative or positive) back from MailChimp before completing our method call. Sweet!
+You may have noticed that when we made the call to MailChimp using the `chimp.call()` method we didn't provide a callback. This is a convenience given to us by the `miro:mailchimp` package. Without a callback, our callback is converted to a [synchronous method call using Meteor.wrapAsync](https://themeteorchef.com/snippets/synchronous-methods/#tmc-using-wrapasync) instead of asynchronous, meaning our method waits until it receives a response before returning. This is handy because it ensures we get a response (either negative or positive) back from MailChimp before completing our method call. Sweet!
 
 As we can guess, then, inside of our `try/catch` block, we're returning one of two things: a success message from MailChimp or an error message from MailChimp. Because our call is synchronous, we can expect to get that value back on the client. How do we handle it?
 
@@ -354,7 +354,7 @@ Template.subscribers.helpers({
 });
 ```
 
-Hold up! What the heck is this? This, friend, is where we get down right _crafty_. Here, we make use of the `reactive-var` package we added at the beginning onf the recipe. [ReactiveVar](http://themeteorchef.com/snippets/reactive-dict-reactive-vars-and-session-variables/#tmc-reactive-variables) allows us to achieve something similar to `Session` variables but at a _local_ level. Here, we make use of this in an interesting way. Because our mailing list data lives on MailChimp, we need a way to "fetch" this data each time we load up our subscribers list.
+Hold up! What the heck is this? This, friend, is where we get down right _crafty_. Here, we make use of the `reactive-var` package we added at the beginning onf the recipe. [ReactiveVar](https://themeteorchef.com/snippets/reactive-dict-reactive-vars-and-session-variables/#tmc-reactive-variables) allows us to achieve something similar to `Session` variables but at a _local_ level. Here, we make use of this in an interesting way. Because our mailing list data lives on MailChimp, we need a way to "fetch" this data each time we load up our subscribers list.
 
 Because this isn't reactive like a database query might be, we need a way to make a call to fetch data from MailChimp and when that data is available, pipe it into our template. Using ReactiveVar, we can do this in combination with a method call. Notice that in our `onCreated` callback (meaning, when our `subscribers` template is created), we do two things: first, we set `this` (representing the current template instance) to a variable called `self`. 
 
@@ -396,7 +396,7 @@ Some of this should look familiar. We can see our variables declared from earlie
 
 Just like we did earlier, we set this call up to be synchronous, meaning we wait for data to be returned before we continue returning from our method. But wait...what's this call to `_.map()` about? Ah! This is a matter of efficiency. In our interface, we only need/want to list the email addresses of each of our subscribers, nothing else. When we get a successful response back from MailChimp, they send us back a bunch of information in the form of individual objects for each subscriber in an array called `data`. 
 
-Here, then, we use map to say "for each of the objects in the `subscribers.data` array, return a single object with a parameter called `email` equal to the currently looped user's email address. `_.map()` then (which we get from the [Underscore](http://underscorejs.org/#map) library that's baked into both Meteor and [Base](https://github.com/themeteorchef/base#packages-included)) returns an array with objects containing the single email field for each subscriber. Cool!
+Here, then, we use map to say "for each of the objects in the `subscribers.data` array, return a single object with a parameter called `email` equal to the currently looped user's email address. `_.map()` then (which we get from the [Underscore](https://underscorejs.org/#map) library that's baked into both Meteor and [Base](https://github.com/themeteorchef/base#packages-included)) returns an array with objects containing the single email field for each subscriber. Cool!
 
 Once we have this filtered array, we simply return it to the client. Let's hop back over to there now to see how this gets to the template.
 
@@ -443,7 +443,7 @@ Let that one sink in. It's pretty wild! Once this is setup, we should see someth
   <figcaption>List of subscribers loading from MailChimp.</figcaption>
 </figure>
 
-Notice that there _is_ a little bit of a delay in our list data being fetched from MailChimp. If we wanted, we could add [a little bit of polish](http://themeteorchef.com/snippets/loading-patterns/#tmc-smooth-loading-using-the-onready-callback) to this like we might if we were working with publications and subscriptions. Either way, it works! Whenever we load up our page now, we'll get the latest subscribers to our mailing list. Pretty neat.
+Notice that there _is_ a little bit of a delay in our list data being fetched from MailChimp. If we wanted, we could add [a little bit of polish](https://themeteorchef.com/snippets/loading-patterns/#tmc-smooth-loading-using-the-onready-callback) to this like we might if we were working with publications and subscriptions. Either way, it works! Whenever we load up our page now, we'll get the latest subscribers to our mailing list. Pretty neat.
 
 One last thing to try out: removing subscribers. Notice that in our example (and our template) we have a red "X" icon being added to each subscriber in our list. Let's wire that up so it actually removes a subscriber from our list.
 
@@ -497,7 +497,7 @@ Just two things to add. First, we add our `template` argument to our function up
 How cool is that? Now whenever we remove a subscriber, we'll "fake" reactivity by fetching the list from MailChimp which will have one less user than before. Awesome! Here's the result:
 
 <figure>
-  <img src="http://cl.ly/image/3v192t1u1X2o/removing-a-user.gif" alt="Removing a user from MailChimp and refreshing our list.">
+  <img src="https://cl.ly/image/3v192t1u1X2o/removing-a-user.gif" alt="Removing a user from MailChimp and refreshing our list.">
   <figcaption>Removing a user from MailChimp and refreshing our list.</figcaption>
 </figure>
 
